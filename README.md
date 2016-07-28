@@ -1,3 +1,45 @@
+## Getting Started ##
+
+Import the library
+```javascript
+import Stork from 'storkSQL';
+const Stork = require('storkSQL');
+```
+
+Set up the connection to your postgres DB and input a schema
+
+
+```javascript
+import Stork from 'storkSQL';
+
+const spotSchema = {
+  columns: {
+    name: 'string',
+    rating: 'number',
+    latitude: 'number',
+    longitude: 'number',
+    yelp_id: 'string'
+  },
+  tableName: 'spots'
+};
+
+const db = new Stork('postgres://localhost:3000/5432/spots', spotSchema);
+
+```
+
+It's very important that the columns and tableName properties exist!
+
+This will give you access to the following queries:
+```
+  getAll()
+  getOne(id)
+  find(obj) - returns an array of results
+  create(object)
+  findOrCreate(object)
+  remove(id)
+```
+
+Using Stork with FB Auth
 ```
 export const facebookAuthConfig = function(User) {
   passport.use(new FacebookStrategy({
@@ -23,24 +65,9 @@ export const facebookAuthConfig = function(User) {
   ));
   ```
 
+Extend Stork with additional methods
 
-  import _ from 'lodash';
-  import Stork from './Stork';
-  import dbConnection from './dbConnect';
-  import SpotsUsers from './spotsUsersJoin';
-  import Promise from 'bluebird';
-
-  const spotSchema = {
-    columns: {
-      name: 'string',
-      rating: 'number',
-      latitude: 'number',
-      longitude: 'number',
-      yelp_id: 'string'
-    },
-    tableName: 'spots'
-  };
-
+```javascript
   class Spot extends DB {
     constructor(dbConnection, schema) {
       super(dbConnection, schema);
@@ -57,8 +84,11 @@ export const facebookAuthConfig = function(User) {
   }
 
   export default new Spot(dbConnection, spotSchema);
+```
 
-  mport DB from './queries';
+Here is a another example of extending the database queries
+```javascript
+  import Stork from 'storkSQL';
   import {createInsertQuery} from './queryHelpers';
 
   const userSchema = {
@@ -98,3 +128,4 @@ export const facebookAuthConfig = function(User) {
   }
 
   export default new User(dbConnection, userSchema);
+```

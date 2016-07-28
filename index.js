@@ -30,7 +30,6 @@ export default class Stork {
       if (foundObj.length > 0) {
         return foundObj;
       }
-      console.log('make this', obj);
       return this.create(obj);
     });
   }
