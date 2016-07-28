@@ -1,9 +1,10 @@
 import _ from 'lodash';
+import promise from 'bluebird';
 import {createInsertQuery, createUpdateQuery, sendBackJSON, createSelectQuery} from './queryHelpers';
 
-export default class DB {
-  constructor(pgConnection, schema) {
-    this.pg = pgConnection;
+export default class Stork {
+  constructor(connectionString, schema) {
+    this.pg = require('pg-promise')({promiseLib: promise})(connectionString);
     this.schema = schema;
   }
 
@@ -20,7 +21,7 @@ export default class DB {
   }
 
   create(obj) {
-    return this.pg.query(createInsertQuery(this.schema, obj))
+    return this.pg.query(createInsertQuery(this.schema, obj));
   }
 
   findOrCreate(obj) {
