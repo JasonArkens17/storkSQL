@@ -1,0 +1,11 @@
+{
+  "name": "stork",
+  "version": "1.0.0",
+  "description": "A SQL ORM with Mongoose-like syntax. Built on top of pgp-promise.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Stark",
+  "license": "ISC"
+}
