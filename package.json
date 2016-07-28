@@ -1,5 +1,5 @@
 {
-  "name": "stork",
+  "name": "storkSQL",
   "version": "1.0.0",
   "description": "A SQL ORM with Mongoose-like syntax. Built on top of pgp-promise.",
   "main": "index.js",
