@@ -16,7 +16,6 @@ export default class StorkQueries {
   }
 
   find(obj) {
-    console.log('find obj', obj);
     return this.pg.query(qh.createSelectQuery(this.tableName, this.schema, obj));
   }
 

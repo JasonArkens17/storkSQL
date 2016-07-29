@@ -79,6 +79,5 @@ qh.createAddColumnQuery = function(tableName, column) {
   return query;
 };
 
-console.log(qh.createAddColumnQuery('users', {name: 'password', type: 'string', default: 'none'} ));
 
 export default qh;
