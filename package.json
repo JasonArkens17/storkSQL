@@ -1,6 +1,6 @@
 {
   "name": "storkSQL",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A SQL ORM with Mongoose-like syntax. Built on top of pgp-promise.",
   "main": "./src/index.js",
   "scripts": {
