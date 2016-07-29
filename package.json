@@ -2,10 +2,10 @@
   "name": "storkSQL",
   "version": "1.0.4",
   "description": "A SQL ORM with Mongoose-like syntax. Built on top of pgp-promise.",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel ./src -d ./ --presets es2015,stage-2 --copy-files",
+    "build": "babel ./src -d ./dist --presets es2015,stage-2 --copy-files",
     "pub": "npm version patch; npm publish"
   },
   "author": "Alex Stark",

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sendBackJSON = exports.createSelectQuery = exports.createUpdateQuery = exports.createInsertQuery = undefined;
+exports.createSelectQuery = exports.createUpdateQuery = exports.createInsertQuery = undefined;
 
 var _lodash = require('lodash');
 
@@ -55,11 +55,4 @@ var createSelectQuery = exports.createSelectQuery = function createSelectQuery(s
   }, '');
   console.log(query + ' ' + params);
   return query + ' ' + params;
-};
-
-var sendBackJSON = exports.sendBackJSON = function sendBackJSON(res, data, message) {
-  return res.status(200).json({
-    data: data,
-    message: message
-  });
 };
