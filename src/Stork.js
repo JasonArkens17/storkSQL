@@ -1,5 +1,6 @@
 import promise from 'bluebird';
 import StorkQueries from './StorkQueries';
+import qh from './queryHelpers';
 
 export default class Stork {
   constructor(connectionString) {
@@ -20,15 +21,11 @@ export default class Stork {
   };
 
   createTable = function(tableName, schema) {
-    return this.pg.query(`CREATE TABLE ${tableName} (
-      id SERIAL PRIMARY KEY,
-      userid INT,
-      spotid INT
-    )`);
+    return this.pg.query(qh.createMakeTableQuery(tableName, schema));
   };
 
   dropTable = function(tableName) {
-
+    return this.pg.query(`DROP TABLE ${tableName}`);
   };
 
   alterTable = function(tableName, obj) {

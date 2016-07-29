@@ -49,9 +49,9 @@ qh.createSelectQuery = function(tableName, schema, findObj) {
     }
     i++;
     return `${params} ${key} = ${typeWrapper(val, schema[key])} or`;
-  }, '')
+  }, '');
   console.log(`${query} ${params}`);
-  return `${query} ${params}`
+  return `${query} ${params}`;
 };
 
 qh.createMakeTableQuery = function(tableName, schema) {
@@ -71,6 +71,14 @@ qh.createMakeTableQuery = function(tableName, schema) {
   return query;
 };
 
-console.log(qh.createMakeTableQuery('users', {name: 'string', password: 'string'}));
+qh.createAddColumnQuery = function(tableName, column) {
+  let query = `ALTER TABLE ${tableName} ADD COLUMN ${column.name} ${typeDictionary[column.type]} ${column.null || ''}`;
+  if (column.default) {
+    query += `DEFAULT ${typeWrapper(column.default, column.type)}`;
+  }
+  return query;
+};
+
+console.log(qh.createAddColumnQuery('users', {name: 'password', type: 'string', default: 'none'} ));
 
 export default qh;
