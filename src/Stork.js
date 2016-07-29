@@ -2,9 +2,11 @@ import promise from 'bluebird';
 import StorkQueries from './StorkQueries';
 import qh from './queryHelpers';
 
+const pgp = require('pg-promise')({promiseLib: promise});
 export default class Stork {
   constructor(connectionString) {
-    this.pg = require('pg-promise')({promiseLib: promise})(connectionString);
+    this.connectionString = connectionString;
+    this.pg = pgp(connectionString);
   }
 
   Model(tableName, schema) {
@@ -12,59 +14,32 @@ export default class Stork {
     return new StorkQueries(tableName, schema, this.pg);
   }
 
-  dropDb = function(dbName) {
+  connect(dbName) {
+    this.connectionString += `/${dbName}`;
+    this.pg = pgp(this.connectionString);
+  }
+
+  dropDb(dbName) {
+    console.log(`DROP DATABASE IF EXISTS ${dbName}`);
     return this.pg.query(`DROP DATABASE IF EXISTS ${dbName}`);
-  };
+  }
 
-  createDb = function(dbName) {
+  createDb(dbName) {
+    console.log(`CREATE DATABASE ${dbName}`);
     return this.pg.query(`CREATE DATABASE ${dbName}`);
-  };
+  }
 
-  createTable = function(tableName, schema) {
-    return this.pg.query(qh.createMakeTableQuery(tableName, schema));
-  };
+  createTable(tableName, schema) {
+    let query = qh.createMakeTableQuery(tableName, schema);
+    console.log(query);
+    return this.pg.query(query);
+  }
 
-  dropTable = function(tableName) {
+  dropTable(tableName) {
     return this.pg.query(`DROP TABLE ${tableName}`);
-  };
+  }
 
-  alterTable = function(tableName, obj) {
-
-  };
+  addColumn(tableName, column) {
+    return this.pg.query(qh.createAddColumnQuery(tableName, column));
+  }
 }
-
-DROP DATABASE IF EXISTS hotspots;
-CREATE DATABASE hotspots;
-
--- connect to the db (\c)
-\c hotspots;
-
-CREATE TABLE spots_users (
-  id SERIAL PRIMARY KEY,
-  userid INT,
-  spotid INT
-);
-
-CREATE TABLE spots (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR,
-  rating VARCHAR,
-  latitude REAL,
-  longitude REAL,
-  yelp_id VARCHAR
-);
-
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR,
-  username VARCHAR,
-  password VARCHAR,
-  facebookId BIGINT,
-  facebookAccessToken VARCHAR
-);
-
---  heroku pg:psql --app [NAME OF APP] -f server/db/setuphotspotdb.sql
-
-// const Stork = function(connectionString) {
-//   this.pg = require('pg-promise')({promiseLib: promise})(connectionString);
-// };

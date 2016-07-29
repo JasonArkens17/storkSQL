@@ -19,6 +19,10 @@ export default class StorkQueries {
     return this.pg.query(qh.createSelectQuery(this.tableName, this.schema, obj));
   }
 
+  findOne(obj) {
+    return this.find(obj).then((users) => users[0]);
+  }
+
   save(obj) {
     return this.pg.query(qh.createInsertQuery(this.tableName, this.schema, obj));
   }
