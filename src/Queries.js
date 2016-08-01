@@ -3,29 +3,30 @@ import Promise from 'bluebird';
 
 const pgp = require('pg-promise')({promiseLib: Promise});
 
-const { insert, update } = pgp.helpers;
+const { insert, update, TableName } = pgp.helpers;
 
 console.log(insert({username: 'alex'}, null, 'users'));
 
 export default class Table {
   constructor(tableName, schema, pg) {
-    this.tableName = tableName;
-    this.schema = schema;
+    this.table = new TableName(tableName, schema); // this automatically wraps up a schema, plus knows how to be formatted;
     this.pg = pg;
     this.queryQueue = [];
     setInterval()
   }
 
   findAll() {
-    return this.pg.query(`select * from ${this.tableName}`);
+    return this.pg.query('select * from ${table}', this);
   }
 
   findById(id) {
-    return this.pg.query(`select * from ${this.tableName} where id = ${id}`);
+    return this.pg.query('select * from ${table} where id = ${id}', {table: this.table, id});
   }
 
   find(obj) {
-    return this.pg.query(qh.createSelectQuery(this.tableName, this.schema, obj));
+    // you might want to change this to use type TableName instead, which already contains table+schema+formatting
+    // the destination should only use pre-formatted table.name
+    return this.pg.query(qh.createSelectQuery(this.table.table, this.table.schema, obj));
   }
 
   findOne(obj) {
@@ -33,12 +34,12 @@ export default class Table {
   }
 
   update(obj) {
-    return this.pg.query(update(obj, null, this.tableName));
+    return this.pg.query(update(obj, null, this.table));
   }
 
   save(obj) {
     // return this.pg.query(qh.createInsertQuery(this.tableName, this.schema, obj));
-    return this.pg.query(insert(obj, null, this.tableName));
+    return this.pg.query(insert(obj, null, this.table));
   }
 
   create(obj) {
@@ -47,11 +48,12 @@ export default class Table {
 
   findOrCreate(obj) {
     return this.findOne(obj)
-    .then((foundObj) => foundObj ? foundObj : this.create(obj));
+      .then((foundObj) => foundObj ? foundObj : this.create(obj));
   }
 
-  remove(obj) {
-    return this.pg.query(qh.createDeleteQuery(this.tableName, this.schema, obj));
+
+  remove(id) {
+    return this.pg.query('delete from ${table} where id = ${id}', {table: this.table, id});
   }
 
   _runEventLoop () {
@@ -61,9 +63,14 @@ export default class Table {
     }
 
   }
-
 }
 
-function test *() {
-  yield
-}
+// }
+//
+// function test *() {
+//   yield
+// }
+// <<<<<<< HEAD
+//   remove(obj) {
+//     return this.pg.query(qh.createDeleteQuery(this.tableName, this.schema, obj));
+// =======
