@@ -1,17 +1,24 @@
 import qh from './queryHelpers';
+import Promise from 'bluebird';
 
-export default class StorkQueries {
+const pgp = require('pg-promise')({promiseLib: Promise});
+
+const { insert, update } = pgp.helpers;
+
+console.log(insert({username: 'alex'}, null, 'users'));
+
+export default class Table {
   constructor(tableName, schema, pg) {
     this.tableName = tableName;
     this.schema = schema;
     this.pg = pg;
   }
 
-  getAll() {
+  findAll() {
     return this.pg.query(`select * from ${this.tableName}`);
   }
 
-  getOne(id) {
+  findById(id) {
     return this.pg.query(`select * from ${this.tableName} where id = ${id}`);
   }
 
@@ -23,8 +30,13 @@ export default class StorkQueries {
     return this.find(obj).then((users) => users[0]);
   }
 
+  update(obj) {
+    return this.pg.query(update(obj, null, this.tableName));
+  }
+
   save(obj) {
-    return this.pg.query(qh.createInsertQuery(this.tableName, this.schema, obj));
+    // return this.pg.query(qh.createInsertQuery(this.tableName, this.schema, obj));
+    return this.pg.query(insert(obj, null, this.tableName));
   }
 
   create(obj) {
@@ -32,13 +44,8 @@ export default class StorkQueries {
   }
 
   findOrCreate(obj) {
-    return this.find(obj)
-    .then((foundObj) => {
-      if (foundObj.length > 0) {
-        return foundObj;
-      }
-      return this.create(obj);
-    });
+    return this.findOne(obj)
+    .then((foundObj) => foundObj ? foundObj : this.create(obj));
   }
 
   remove(id) {

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 const typeWrapper = function(thing, type) {
-  if(thing === null) return null;
-  if (type === 'string') return `\'${thing}\'`;
+  if (thing === null) { return null; }
+  if (type === 'string') { return `\'${thing}\'`; }
   return thing;
 };
 

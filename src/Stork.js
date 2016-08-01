@@ -1,8 +1,9 @@
-import promise from 'bluebird';
-import StorkQueries from './StorkQueries';
+import Promise from 'bluebird';
+import Table from './Queries';
 import qh from './queryHelpers';
 
-const pgp = require('pg-promise')({promiseLib: promise});
+const pgp = require('pg-promise')({promiseLib: Promise});
+
 export default class Stork {
   constructor(connectionString) {
     this.connectionString = connectionString;
@@ -11,7 +12,7 @@ export default class Stork {
 
   Model(tableName, schema) {
     console.log('making model');
-    return new StorkQueries(tableName, schema, this.pg);
+    return new Table(tableName, schema, this.pg);
   }
 
   connect(dbName) {
@@ -39,7 +40,4 @@ export default class Stork {
     return this.pg.query(`DROP TABLE ${tableName}`);
   }
 
-  addColumn(tableName, column) {
-    return this.pg.query(qh.createAddColumnQuery(tableName, column));
-  }
 }
