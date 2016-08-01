@@ -39,19 +39,10 @@ qh.createUpdateQuery = function(tableName, schema, updateObj, id) {
 };
 
 qh.createSelectQuery = function(tableName, schema, findObj) {
-  console.log('find obj', findObj);
   let query = `select * from ${tableName} where`;
-  let length = Object.keys(findObj).length;
-  let i = 0;
-  let params = _.reduce(findObj, (params, val, key) => {
-    if (i === length - 1) {
-      return `${params} ${key} = ${typeWrapper(val, schema[key])}`;
-    }
-    i++;
-    return `${params} ${key} = ${typeWrapper(val, schema[key])} or`;
-  }, '');
-  console.log(`${query} ${params}`);
-  return `${query} ${params}`;
+  // console.log(`${query}`);
+  console.log('select query!');
+  return `${query} ${objectToWhereStatement(findObj, schema)}`;
 };
 
 qh.createMakeTableQuery = function(tableName, schema) {
@@ -79,5 +70,24 @@ qh.createAddColumnQuery = function(tableName, column) {
   return query;
 };
 
+qh.createDeleteQuery = function(tableName, schema, deleteObj) {
+  console.log(deleteObj);
+  let query = `delete from ${this.tableName} where`;
+  return `${query} ${objectToWhereStatement(deleteObj, schema)}`;
+};
+
 
 export default qh;
+
+
+function objectToWhereStatement(obj, schema) {
+  let length = Object.keys(obj).length;
+  let i = 0;
+  return _.reduce(obj, (params, val, key) => {
+    if (i === length - 1) {
+      return `${params} ${key} = ${typeWrapper(val, schema[key])}`;
+    }
+    i++;
+    return `${params} ${key} = ${typeWrapper(val, schema[key])} or`;
+  }, '');
+}

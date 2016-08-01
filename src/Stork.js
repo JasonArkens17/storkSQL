@@ -40,4 +40,7 @@ export default class Stork {
     return this.pg.query(`DROP TABLE ${tableName}`);
   }
 
+  end() {
+    return pgp.end();
+  }
 }

@@ -12,6 +12,8 @@ export default class Table {
     this.tableName = tableName;
     this.schema = schema;
     this.pg = pg;
+    this.queryQueue = [];
+    setInterval()
   }
 
   findAll() {
@@ -48,8 +50,20 @@ export default class Table {
     .then((foundObj) => foundObj ? foundObj : this.create(obj));
   }
 
-  remove(id) {
-    return this.pg.query(`delete from ${this.tableName} where id = ${id}`);
+  remove(obj) {
+    return this.pg.query(qh.createDeleteQuery(this.tableName, this.schema, obj));
   }
 
+  _runEventLoop () {
+    if (this.queryQueue.length > 0) {
+      this.queryQueue.forEach(({fn, args}) => {
+      })
+    }
+
+  }
+
+}
+
+function test *() {
+  yield
 }
