@@ -1,5 +1,8 @@
 ## Getting Started ##
 
+**Under construction!** 
+Use at your own risk!
+
 Import the library
 ```javascript
 const Stork = require('storkSQL');
