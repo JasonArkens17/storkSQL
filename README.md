@@ -8,17 +8,21 @@ You'll need two things to get started: the library and a DB client.
 Stork uses knex which supports pg, mySQL, and SQlite.
 
 Import the library
-```javascript
-const Stork = require('storkSQL');
-```
 
 ### Configure the database ###
 
 `databaseManagement.js`
 ```javascript
-const DB_CONFIG_OBJ = require('../../secret/config').DB_CONFIG_OBJ;
-import Stork from './stork/index';
-
+import Stork from 'storkSQL';
+// Put your information below
+const DB_CONFIG_OBJ = {
+  host: '',
+  password: '',
+  database: '',
+  port: 3241,
+  user: '',
+  ssl: true
+};
 export default new Stork(DB_CONFIG_OBJ, 'pg');
 ```
 
@@ -89,4 +93,6 @@ Remember to transpile as async/await isn't supported everywhere, yet.
 
 
 ## To-Do ##
+* Testing
+* Database management
 * Relationships and joins

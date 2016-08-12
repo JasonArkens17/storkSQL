@@ -1,9 +1,10 @@
 import Model from './Model';
 import UserModel from './UserModel';
+import knex from 'knex';
 
 export default class DatabaseInstance {
   constructor(configObj, client) {
-    this.db = require('knex')({
+    this.db = knex({
       client: client,
       connection: configObj
     });
