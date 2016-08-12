@@ -14,6 +14,10 @@ var _UserModel = require('./UserModel');
 
 var _UserModel2 = _interopRequireDefault(_UserModel);
 
+var _knex = require('knex');
+
+var _knex2 = _interopRequireDefault(_knex);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22,7 +26,7 @@ var DatabaseInstance = function () {
   function DatabaseInstance(configObj, client) {
     _classCallCheck(this, DatabaseInstance);
 
-    this.db = require('knex')({
+    this.db = (0, _knex2.default)({
       client: client,
       connection: configObj
     });
