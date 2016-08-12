@@ -6,10 +6,6 @@ export const RideSchema = function (ride) {
   ride.string('selectedRide', 255);
   ride.string('origin', 255);
   ride.string('destination', 255);
-  ride.string('lyftEstimatedFare', 255);
-  ride.string('lyftEstimatedDuration', 100);
-  ride.string('uberEstimatedFare', 255);
-  ride.string('uberEstimatedDuration', 100);
   ride.timestamps();
 };
 
