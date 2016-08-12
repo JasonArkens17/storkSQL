@@ -1,5 +1,12 @@
 ## Getting Started ##
 
+You'll need two things to get started: the library and a DB client.
+
+`npm install storkSQL`
+`npm install pg`
+
+Stork uses knex which supports pg, mySQL, and SQlite.
+
 Import the library
 ```javascript
 const Stork = require('storkSQL');
@@ -7,88 +14,79 @@ const Stork = require('storkSQL');
 
 ### Configure the database ###
 
+`databaseManagement.js`
 ```javascript
-import Stork from '../src/Stork';
+const DB_CONFIG_OBJ = require('../../secret/config').DB_CONFIG_OBJ;
+import Stork from './stork/index';
 
-const db = new Stork('postgres://localhost:5432');
-db.dropDb('tests')
-.then(r => db.createDb('tests'))
-.then(r => db.connect('tests'))
-.then((r => db.createTable('users', {username: 'string', password: 'string'})))
-.then((r => console.log('done')));
-```
-The database can be configured with the following methods:
-```
-connect(dbName)
-dropDb(dbName)
-createDb(dbName)
-createTable(tableName, schema)
-dropTable(tableName)
-addColumn(tableName, column)
+export default new Stork(DB_CONFIG_OBJ, 'pg');
 ```
 
-### Create Queries ###
-
-Set up the connection to your postgres DB and input a schema
-
+### Set up your schema and models ###
+`User.js`
 ```javascript
-import Stork from '../src/Stork';
-
-const db = new Stork('postgres://localhost:5432/tests');
-
-const UserSchema = {
-  username: 'string',
-  password: 'string'
-}
-
-const User = db.Model('users', UserSchema);
-// console.log(User);
-
-const myUser = {
-  username: 'Alex',
-  password: 'cats'
-}
-
-User.save(myUser);
-
-User.find(myUser)
-  .then((user) => console.log(user));
+import dbm from './path/to/databaseManagement';
+export const UserSchema = function (user) {
+  user.increments('id').primary();
+  user.string('email', 100).unique();
+  user.string('password', 100);
+  user.string('homeLatitude', 100);
+  user.string('homeLongitude', 100);
+  user.string('homeAddress', 100);
+  user.timestamps();
+};
+export const User = dbm.model('users');
 ```
 
 This will give you access to the following queries:
 ```
-getAll
-getOne
-find
-findOne
-save
-create
-findOrCreate
-remove
+findAll()
+findById(id)
+find(obj)
+findOrCreate(obj)
+create(obj)
+save(obj)
+update(criteriaObj, updateObj)
+remove(obj)
+```
+Each query will return a promise that must be resolved, like so:
+
+```javascript
+User.find({id: req.params.userid})
+  .then((user) => res.json(user));
+};
 ```
 
-Using Stork with FB Auth
-```
-export const facebookAuthConfig = function(User) {
-  passport.use(new FacebookStrategy({
-    clientID: FB.APP_ID,
-    clientSecret: FB.APP_SECRET,
-    callbackURL: FB.CALLBACK,
-    enableProof: true,
-    profileFields: ['id', 'emails', 'name']
-  }, function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function() {
-      return User.findOrCreate({
-        name: profile.name.givenName,
-        facebookId: profile.id,
-        facebookAccessToken: accessToken
-      })
-      .then((user) => {
-        console.log('got it!');
-        return done(null, user);
-      })
-      .catch((err) => done(err, null));
-    });
+
+It is recommended to create files to help manage your DB like this:
+```javascript
+const resetDb = async function() {
+  await db.schema.dropTableIfExists('users');
+  console.log('dropping users table');
+  await db.schema.dropTableIfExists('rides');
+  console.log('dropping rides table');
+
+  if (!(await db.schema.hasTable('users'))) {
+    await db.schema.createTable('users', UserSchema);
+    console.log('created new users table');
   }
-  ));
-  ```
+
+  if (!(await db.schema.hasTable('rides'))) {
+    await db.schema.createTable('rides', RideSchema);
+    console.log('created new rides table');
+  }
+
+  await db.destroy();
+  console.log('connection destroyed');
+};
+
+
+resetDb();
+
+```
+
+Remember to transpile as async/await isn't supported everywhere, yet.
+
+
+## To-Do ##
+* Relationships and joins
