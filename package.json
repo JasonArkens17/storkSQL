@@ -1,6 +1,6 @@
 {
   "name": "storkSQL",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A SQL ORM with Mongoose-like syntax. Built on top of knex.",
   "main": "./dist/index.js",
   "scripts": {
