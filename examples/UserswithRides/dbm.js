@@ -9,5 +9,5 @@ import DB_CONFIG_OBJ from '../../secret/config';
 //   user: '',
 //   ssl: true
 // };
-
-export default new Stork(DB_CONFIG_OBJ, 'pg');
+const databaseConnection = new Stork(DB_CONFIG_OBJ, 'pg');
+export default databaseConnection;
