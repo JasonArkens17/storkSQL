@@ -13,10 +13,10 @@ export default class DatabaseInstance {
   }
 
   model(table, options) {
-    if (options.secureFields) {
+    if (options && options.secureFields) {
       return new SecureFieldsModel(table, this.db, options.secureFields.password, options.secureFields.fields);
     }
-    if (options.user) {
+    if (options && options.user) {
       return new UserModel(table, this.db);
     }
     return new Model(table, this.db);

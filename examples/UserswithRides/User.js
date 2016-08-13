@@ -64,6 +64,10 @@ export const User = db.model('users', {
 //   password: 'hi',
 //   uberPassword: 'please be protected'})
 // .then((user) => console.log(user));
+//
+// User.findOne({email: 'tes one'})
+// .then((user) => console.log(User.decryptModel(user)));
 
-User.findOne({email: 'tes one'})
-.then((user) => console.log(User.decryptModel(user)));
+
+User.findAll()
+.then((users) => console.log(User.decryptCollection(users)));

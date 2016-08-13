@@ -57,7 +57,7 @@ var SecureFields = function (_Model) {
       var _this3 = this;
 
       return collection.map(function (model) {
-        return _this3.decryptedModel(model);
+        return _this3.decryptModel(model);
       });
     }
   }, {

@@ -21,7 +21,7 @@ export default class SecureFields extends Model {
   }
 
   decryptCollection(collection) {
-    return collection.map((model) => this.decryptedModel(model));
+    return collection.map((model) => this.decryptModel(model));
   }
 
   decryptModel(obj) {
