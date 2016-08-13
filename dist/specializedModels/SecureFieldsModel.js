@@ -52,14 +52,23 @@ var SecureFields = function (_Model) {
       return this._ModelCreate(obj);
     }
   }, {
+    key: 'decryptCollection',
+    value: function decryptCollection(collection) {
+      var _this3 = this;
+
+      return collection.map(function (model) {
+        return _this3.decryptedModel(model);
+      });
+    }
+  }, {
     key: 'decryptModel',
     value: function decryptModel(obj) {
-      var _this3 = this;
+      var _this4 = this;
 
       var decrypted = _lodash2.default.extend({}, obj);
       (0, _lodash2.default)(decrypted).each(function (field) {
         if (decrypted[field]) {
-          decrypted[field] = _this3.decrypt(decrypted[field]);
+          decrypted[field] = _this4.decrypt(decrypted[field]);
         }
       });
       return decrypted;

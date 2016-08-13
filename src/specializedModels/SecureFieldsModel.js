@@ -20,6 +20,10 @@ export default class SecureFields extends Model {
     return this._ModelCreate(obj);
   }
 
+  decryptCollection(collection) {
+    return collection.map((model) => this.decryptedModel(model));
+  }
+
   decryptModel(obj) {
     let decrypted = _.extend({}, obj);
     _(decrypted).each((field) => {
