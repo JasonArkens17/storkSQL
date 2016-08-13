@@ -8,7 +8,7 @@ export default class DatabaseInstance {
       client: client,
       connection: configObj
     });
-    this.db = this.knex;
+    this.db = this.knex;  
   }
   model(table) {
     return new Model(table, this.db);

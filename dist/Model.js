@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -22,22 +22,22 @@ var Model = function () {
   }
 
   _createClass(Model, [{
-    key: "findAll",
+    key: 'findAll',
     value: function findAll() {
       return this.db.select().from(this.table);
     }
   }, {
-    key: "findById",
+    key: 'findById',
     value: function findById(id) {
       return this.db.select().from(this.table).where({ id: id });
     }
   }, {
-    key: "find",
+    key: 'find',
     value: function find(obj) {
       return this.db.select().from(this.table).where(obj);
     }
   }, {
-    key: "findOrCreate",
+    key: 'findOrCreate',
     value: function findOrCreate(obj) {
       var _this = this;
 
@@ -52,7 +52,7 @@ var Model = function () {
       });
     }
   }, {
-    key: "updateOrCreate",
+    key: 'updateOrCreate',
     value: function updateOrCreate(obj) {
       var _this2 = this;
 
@@ -65,26 +65,22 @@ var Model = function () {
       });
     }
   }, {
-    key: "create",
+    key: 'create',
     value: function create(obj) {
-      var _db$insert$into;
-
-      return (_db$insert$into = this.db.insert(obj).into(this.table)).returning.apply(_db$insert$into, _toConsumableArray(Object.keys(obj)));
+      return this.db.insert(obj).into(this.table).returning('*');
     }
   }, {
-    key: "save",
+    key: 'save',
     value: function save(obj) {
       return this.create(obj);
     }
   }, {
-    key: "update",
+    key: 'update',
     value: function update(criteriaObj, updateObj) {
-      var _db$update$where;
-
-      return (_db$update$where = this.db(this.table).update(updateObj, [].concat(_toConsumableArray(updateObj))).where(criteriaObj)).returning.apply(_db$update$where, _toConsumableArray(Object.keys(updateObj)));
+      return this.db(this.table).update(updateObj, [].concat(_toConsumableArray(updateObj))).where(criteriaObj).returning('*');
     }
   }, {
-    key: "remove",
+    key: 'remove',
     value: function remove(obj) {
       return this.db(this.table).where(obj).del();
     }
