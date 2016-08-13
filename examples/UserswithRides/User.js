@@ -59,8 +59,11 @@ export const User = db.model('users', {
   }
 });
 
-User.create({
-  email: 'alexismakingthis one',
-  password: 'hi',
-  uberPassword: 'please be protected'})
-.then((user) => console.log(user));
+// User.create({
+//   email: 'tes one',
+//   password: 'hi',
+//   uberPassword: 'please be protected'})
+// .then((user) => console.log(user));
+
+User.findOne({email: 'tes one'})
+.then((user) => console.log(User.decryptModel(user)));

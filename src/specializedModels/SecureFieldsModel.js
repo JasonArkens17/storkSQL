@@ -26,7 +26,7 @@ export default class SecureFields extends Model {
 
   decryptModel(obj) {
     let decrypted = _.extend({}, obj);
-    _(decrypted).each((field) => {
+    _(this.secureFields).each((field) => {
       if (decrypted[field]) {
         decrypted[field] = this.decrypt(decrypted[field]);
       }
