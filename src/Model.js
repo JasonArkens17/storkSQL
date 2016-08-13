@@ -30,10 +30,17 @@ class Model {
     });
   }
 
-  // TODO
   updateOrCreate(obj) {
-
+    return this.db.find(obj)
+    .then((foundObj) => {
+      if (!foundObj) {
+        return this.create(obj);
+      } else {
+        return update(foundObj, obj);
+      }
+    });
   }
+
 
   create(obj) {
     return this.db.insert(obj).into(this.table).returning(...Object.keys(obj));
