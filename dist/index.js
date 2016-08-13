@@ -10,9 +10,13 @@ var _Model = require('./Model');
 
 var _Model2 = _interopRequireDefault(_Model);
 
-var _UserModel = require('./UserModel');
+var _UserModel = require('./specializedModels/UserModel');
 
 var _UserModel2 = _interopRequireDefault(_UserModel);
+
+var _SecureFieldsModel = require('./specializedModels/SecureFieldsModel');
+
+var _SecureFieldsModel2 = _interopRequireDefault(_SecureFieldsModel);
 
 var _knex = require('knex');
 
@@ -37,7 +41,7 @@ var DatabaseInstance = function () {
     key: 'model',
     value: function model(table, options) {
       if (options.secureFields) {
-        return new SecureFieldsModel(table, this.db, options.secureFields.password, options.secureFields.fields);
+        return new _SecureFieldsModel2.default(table, this.db, options.secureFields.password, options.secureFields.fields);
       }
       if (options.user) {
         return new _UserModel2.default(table, this.db);

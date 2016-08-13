@@ -1,5 +1,6 @@
 import Model from './Model';
-import UserModel from './UserModel';
+import UserModel from './specializedModels/UserModel';
+import SecureFieldsModel from './specializedModels/SecureFieldsModel';
 import knex from 'knex';
 
 export default class DatabaseInstance {
