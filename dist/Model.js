@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34,12 +32,12 @@ var Model = function () {
   }, {
     key: 'find',
     value: function find(obj) {
-      return this.db.select().from(this.table).where(obj);
+      return this.db.select().from(this.table).orWhere(obj);
     }
   }, {
     key: 'findOne',
     value: function findOne(obj) {
-      return this.db.select().from(this.table).where(obj).then(function (user) {
+      return this.db.select().from(this.table).orWhere(obj).then(function (user) {
         return user[0];
       });
     }
@@ -50,7 +48,7 @@ var Model = function () {
 
       // finds only on first val
       var firstProperty = Object.keys(obj)[0];
-      this.db.select().from(this.table).where(_defineProperty({}, firstProperty, obj[firstProperty])).then(function (foundObj) {
+      this.db.select().from(this.table).orWhere(_defineProperty({}, firstProperty, obj[firstProperty])).then(function (foundObj) {
         if (!foundObj) {
           return _this.create(obj);
         } else {
@@ -60,14 +58,14 @@ var Model = function () {
     }
   }, {
     key: 'updateOrCreate',
-    value: function updateOrCreate(obj) {
+    value: function updateOrCreate(findCriteria, updateCriteria) {
       var _this2 = this;
 
-      return this.find(obj).then(function (foundObj) {
+      return this.findOne(findCriteria).then(function (foundObj) {
         if (!foundObj) {
-          return _this2.create(obj);
+          return _this2.create(updateCriteria);
         } else {
-          return update(foundObj, obj);
+          return _this2.update(findCriteria, updateCriteria);
         }
       });
     }
@@ -84,7 +82,7 @@ var Model = function () {
   }, {
     key: 'update',
     value: function update(criteriaObj, updateObj) {
-      return this.db(this.table).update(updateObj, [].concat(_toConsumableArray(updateObj))).where(criteriaObj).returning('*');
+      return this.db(this.table).update(updateObj).orWhere(criteriaObj).returning('*');
     }
   }, {
     key: 'remove',
