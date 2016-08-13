@@ -10,3 +10,6 @@ export const UserSchema = function (user) {
 };
 
 export const User = dbm.model('users');
+
+User.create({email: 'hise', password:'pass'})
+.then((user) => console.log(user));

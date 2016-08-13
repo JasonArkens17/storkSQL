@@ -42,7 +42,7 @@ class Model {
   }
 
   create(obj) {
-    return this.db.insert(obj).into(this.table).returning(...Object.keys(obj));
+    return this.db.insert(obj).into(this.table).returning('*');
   }
 
   save(obj) {
@@ -53,7 +53,7 @@ class Model {
     return this.db(this.table)
       .update(updateObj, [...updateObj])
       .where(criteriaObj)
-      .returning(...Object.keys(updateObj));
+      .returning('*');
   }
 
   remove(obj) {
