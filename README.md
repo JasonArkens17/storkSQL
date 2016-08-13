@@ -1,4 +1,5 @@
 ## Getting Started ##
+https://github.com/alexcstark/storkSQL
 
 You'll need two things to get started: the library and a DB client.
 
