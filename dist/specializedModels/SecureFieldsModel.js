@@ -44,7 +44,9 @@ var SecureFields = function (_Model) {
       var _this2 = this;
 
       this.secureFields.forEach(function (field) {
-        obj[field] = _this2.encrypt(obj[field]);
+        if (obj[field]) {
+          obj[field] = _this2.encrypt(obj[field]);
+        }
       });
 
       return this._ModelCreate(obj);
@@ -56,7 +58,9 @@ var SecureFields = function (_Model) {
 
       var decrypted = _lodash2.default.extend({}, obj);
       (0, _lodash2.default)(decrypted).each(function (field) {
-        decrypted[field] = _this3.decrypt(decrypted[field]);
+        if (decrypted[field]) {
+          decrypted[field] = _this3.decrypt(decrypted[field]);
+        }
       });
       return decrypted;
     }

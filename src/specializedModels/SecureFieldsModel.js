@@ -12,7 +12,9 @@ export default class SecureFields extends Model {
 
   create(obj) {
     this.secureFields.forEach((field) => {
-      obj[field] = this.encrypt(obj[field]);
+      if (obj[field]) {
+        obj[field] = this.encrypt(obj[field]);
+      }
     });
 
     return this._ModelCreate(obj);
@@ -21,7 +23,9 @@ export default class SecureFields extends Model {
   decryptModel(obj) {
     let decrypted = _.extend({}, obj);
     _(decrypted).each((field) => {
-      decrypted[field] = this.decrypt(decrypted[field]);
+      if (decrypted[field]) {
+        decrypted[field] = this.decrypt(decrypted[field]);
+      }
     });
     return decrypted;
   }
