@@ -41,7 +41,6 @@ class Model {
     });
   }
 
-
   create(obj) {
     return this.db.insert(obj).into(this.table).returning(...Object.keys(obj));
   }
@@ -62,6 +61,11 @@ class Model {
       .where(obj)
       .del();
   }
+
+  // TODO create event and lifecycle hooks
+  // on(event) {
+  //
+  // }
 
 }
 

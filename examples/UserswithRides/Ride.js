@@ -1,4 +1,4 @@
-import dbm from './dbm';
+import dbm from './db';
 
 export const RideSchema = function (ride) {
   ride.increments('id').primary();

@@ -12,4 +12,20 @@ export default class DatabaseInstance {
   model(table) {
     return new Model(table, this.db);
   }
+
+  dropTableIfExists(tableName) {
+    return this.db.schema.dropTableIfExists(tableName);
+  }
+
+  hasTable(tableName) {
+    return this.db.schema.hasTable(tableName);
+  }
+
+  createTable(tableName, schema) {
+    return this.db.schema.createTable(tableName, schema);
+  }
+
+  endConnection() {
+    return this.db.destroy();
+  }
 }

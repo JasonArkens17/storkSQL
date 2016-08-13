@@ -1,4 +1,4 @@
-import dbm from './dbm';
+import dbm from './db';
 export const UserSchema = function (user) {
   user.increments('id').primary();
   user.string('email', 100).unique();
