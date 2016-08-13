@@ -35,7 +35,13 @@ var DatabaseInstance = function () {
 
   _createClass(DatabaseInstance, [{
     key: 'model',
-    value: function model(table) {
+    value: function model(table, options) {
+      if (options.secureFields) {
+        return new SecureFieldsModel(table, this.db, options.secureFields.password, options.secureFields.fields);
+      }
+      if (options.user) {
+        return new _UserModel2.default(table, this.db);
+      }
       return new _Model2.default(table, this.db);
     }
   }, {

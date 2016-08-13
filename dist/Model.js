@@ -70,6 +70,11 @@ var Model = function () {
       });
     }
   }, {
+    key: '_ModelCreate',
+    value: function _ModelCreate(obj) {
+      return this.db.insert(obj).into(this.table).returning('*');
+    }
+  }, {
     key: 'create',
     value: function create(obj) {
       return this.db.insert(obj).into(this.table).returning('*');

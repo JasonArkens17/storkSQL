@@ -8,9 +8,16 @@ export default class DatabaseInstance {
       client: client,
       connection: configObj
     });
-    this.db = this.knex;  
+    this.db = this.knex;
   }
-  model(table) {
+
+  model(table, options) {
+    if (options.secureFields) {
+      return new SecureFieldsModel(table, this.db, options.secureFields.password, options.secureFields.fields);
+    }
+    if (options.user) {
+      return new UserModel(table, this.db);
+    }
     return new Model(table, this.db);
   }
 

@@ -46,6 +46,10 @@ class Model {
     });
   }
 
+  _ModelCreate(obj) {
+    return this.db.insert(obj).into(this.table).returning('*');
+  }
+
   create(obj) {
     return this.db.insert(obj).into(this.table).returning('*');
   }
