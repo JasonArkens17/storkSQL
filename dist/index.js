@@ -37,6 +37,26 @@ var DatabaseInstance = function () {
     value: function model(table) {
       return new _Model2.default(table, this.db);
     }
+  }, {
+    key: 'dropTableIfExists',
+    value: function dropTableIfExists(tableName) {
+      return this.db.schema.dropTableIfExists(tableName);
+    }
+  }, {
+    key: 'hasTable',
+    value: function hasTable(tableName) {
+      return this.db.schema.hasTable(tableName);
+    }
+  }, {
+    key: 'createTable',
+    value: function createTable(tableName, schema) {
+      return this.db.schema.createTable(tableName, schema);
+    }
+  }, {
+    key: 'endConnection',
+    value: function endConnection() {
+      return this.db.destroy();
+    }
   }]);
 
   return DatabaseInstance;

@@ -51,12 +51,19 @@ var Model = function () {
         }
       });
     }
-
-    // TODO
-
   }, {
     key: "updateOrCreate",
-    value: function updateOrCreate(obj) {}
+    value: function updateOrCreate(obj) {
+      var _this2 = this;
+
+      return this.db.find(obj).then(function (foundObj) {
+        if (!foundObj) {
+          return _this2.create(obj);
+        } else {
+          return update(foundObj, obj);
+        }
+      });
+    }
   }, {
     key: "create",
     value: function create(obj) {
@@ -81,6 +88,12 @@ var Model = function () {
     value: function remove(obj) {
       return this.db(this.table).where(obj).del();
     }
+
+    // TODO create event and lifecycle hooks
+    // on(event) {
+    //
+    // }
+
   }]);
 
   return Model;

@@ -11,7 +11,7 @@ Import the library
 
 ### Configure the database ###
 
-`databaseManagement.js`
+`db.js`
 ```javascript
 import Stork from 'storkSQL';
 // Put your information below
@@ -26,10 +26,18 @@ const DB_CONFIG_OBJ = {
 export default new Stork(DB_CONFIG_OBJ, 'pg');
 ```
 
+The following methods on the db object exist to help you manage your database.
+```
+  dropTableIfExists(tableName)
+  hasTable(tableName)
+  createTable(tableName, schema)
+  endConnection()
+```
+
 ### Set up your schema and models ###
 `User.js`
 ```javascript
-import dbm from './path/to/databaseManagement';
+import db from './path/to/db.js';
 export const UserSchema = function (user) {
   user.increments('id').primary();
   user.string('email', 100).unique();
@@ -50,42 +58,53 @@ find(obj)
 findOrCreate(obj)
 create(obj)
 save(obj)
+updateOrCreate(obj)
 update(criteriaObj, updateObj)
 remove(obj)
 ```
-Each query will return a promise that must be resolved, like so:
 
+Each query will return a promise that must be resolved, like so:
 ```javascript
 User.find({id: req.params.userid})
   .then((user) => res.json(user));
 };
 ```
 
+The library also support salting, hashing, and comparing passwords for Users
+```
+generateHash(password)
+isValidPassword(password, userid)
+```
+
 
 It is recommended to create files to help manage your DB like this:
 ```javascript
+import db from '../db';
+import {RideSchema} from '../Ride';
+import {UserSchema} from '../User';
+
 const resetDb = async function() {
-  await db.schema.dropTableIfExists('users');
+  await db.dropTableIfExists('users');
   console.log('dropping users table');
-  await db.schema.dropTableIfExists('rides');
+  await db.dropTableIfExists('rides');
   console.log('dropping rides table');
 
-  if (!(await db.schema.hasTable('users'))) {
-    await db.schema.createTable('users', UserSchema);
+  if (!(await db.hasTable('users'))) {
+    await db.createTable('users', UserSchema);
     console.log('created new users table');
   }
 
-  if (!(await db.schema.hasTable('rides'))) {
-    await db.schema.createTable('rides', RideSchema);
+  if (!(await db.hasTable('rides'))) {
+    await db.createTable('rides', RideSchema);
     console.log('created new rides table');
   }
 
-  await db.destroy();
+  await db.endConnection(); /* eslint-ignore */
   console.log('connection destroyed');
 };
 
-
 resetDb();
+
 
 ```
 
