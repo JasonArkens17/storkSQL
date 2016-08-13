@@ -10,6 +10,19 @@ export const UserSchema = function (user) {
 };
 
 export const User = dbm.model('users');
+//
+// User.create({email: 'hise', password:'pass'})
+// .then((user) => console.log(user));
+//
 
-User.create({email: 'hise', password:'pass'})
-.then((user) => console.log(user));
+// User.findOne({email: 'hise'})
+// .then((user) => console.log(user));
+//
+// User.updateOrCreate({email: 'hise', password:'otherpass'})
+// .then((user) => console.log(user));
+
+// User.update({email:'hise'}, {password:'otherpass'})
+// .then((user) => console.log(user));
+
+// User.updateOrCreate({email: 'hise'}, {password: 'origpass'})
+// .then((user) => console.log(user));

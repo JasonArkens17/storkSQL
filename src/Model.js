@@ -14,18 +14,18 @@ class Model {
   }
 
   find(obj) {
-    return this.db.select().from(this.table).where(obj);
+    return this.db.select().from(this.table).orWhere(obj);
   }
 
   findOne(obj) {
-    return this.db.select().from(this.table).where(obj)
+    return this.db.select().from(this.table).orWhere(obj)
       .then((user) => user[0]);
   }
 
   findOrCreate(obj) {
     // finds only on first val
     let firstProperty = Object.keys(obj)[0];
-    this.db.select().from(this.table).where({[firstProperty]: obj[firstProperty]})
+    this.db.select().from(this.table).orWhere({[firstProperty]: obj[firstProperty]})
     .then((foundObj) => {
       if (!foundObj) {
         return this.create(obj);
@@ -35,13 +35,13 @@ class Model {
     });
   }
 
-  updateOrCreate(obj) {
-    return this.find(obj)
+  updateOrCreate(findCriteria, updateCriteria) {
+    return this.findOne(findCriteria)
     .then((foundObj) => {
       if (!foundObj) {
-        return this.create(obj);
+        return this.create(updateCriteria);
       } else {
-        return update(foundObj, obj);
+        return this.update(findCriteria, updateCriteria);
       }
     });
   }
@@ -55,10 +55,7 @@ class Model {
   }
 
   update(criteriaObj, updateObj) {
-    return this.db(this.table)
-      .update(updateObj, [...updateObj])
-      .where(criteriaObj)
-      .returning('*');
+    return this.db(this.table).update(updateObj).orWhere(criteriaObj).returning('*');
   }
 
   remove(obj) {
