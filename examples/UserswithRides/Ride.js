@@ -1,4 +1,4 @@
-import dbm from './db';
+import db from './db';
 
 export const RideSchema = function (ride) {
   ride.increments('id').primary();
@@ -9,4 +9,4 @@ export const RideSchema = function (ride) {
   ride.timestamps();
 };
 
-export const Ride = dbm.model('rides');
+export const Ride = db.model('rides');

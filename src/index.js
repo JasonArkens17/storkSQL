@@ -4,10 +4,11 @@ import knex from 'knex';
 
 export default class DatabaseInstance {
   constructor(configObj, client) {
-    this.db = knex({
+    this.knex = knex({
       client: client,
       connection: configObj
     });
+    this.db = this.knex;
   }
   model(table) {
     return new Model(table, this.db);

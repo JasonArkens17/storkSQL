@@ -26,10 +26,11 @@ var DatabaseInstance = function () {
   function DatabaseInstance(configObj, client) {
     _classCallCheck(this, DatabaseInstance);
 
-    this.db = (0, _knex2.default)({
+    this.knex = (0, _knex2.default)({
       client: client,
       connection: configObj
     });
+    this.db = this.knex;
   }
 
   _createClass(DatabaseInstance, [{
