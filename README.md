@@ -3,11 +3,10 @@
 You'll need two things to get started: the library and a DB client.
 
 `npm install storkSQL`
+
 `npm install pg`
 
 Stork uses knex which supports pg, mySQL, and SQlite.
-
-Import the library
 
 ### Configure the database ###
 
@@ -76,7 +75,6 @@ generateHash(password)
 isValidPassword(password, userid)
 ```
 
-
 It is recommended to create files to help manage your DB like this:
 ```javascript
 import db from '../db';
@@ -113,5 +111,4 @@ Remember to transpile as async/await isn't supported everywhere, yet.
 
 ## To-Do ##
 * Testing
-* Database management
 * Relationships and joins

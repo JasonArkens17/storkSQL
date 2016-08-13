@@ -1,6 +1,5 @@
 import Stork from '../../src/index';
 import DB_CONFIG_OBJ from '../../secret/config';
-
 // const DB_CONFIG_OBJ = {
 //   host: '',
 //   password: '',
