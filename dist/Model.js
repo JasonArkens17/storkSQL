@@ -37,6 +37,13 @@ var Model = function () {
       return this.db.select().from(this.table).where(obj);
     }
   }, {
+    key: 'findOne',
+    value: function findOne(obj) {
+      return this.db.select().from(this.table).where(obj).then(function (user) {
+        return user[0];
+      });
+    }
+  }, {
     key: 'findOrCreate',
     value: function findOrCreate(obj) {
       var _this = this;
@@ -56,7 +63,7 @@ var Model = function () {
     value: function updateOrCreate(obj) {
       var _this2 = this;
 
-      return this.db.find(obj).then(function (foundObj) {
+      return this.find(obj).then(function (foundObj) {
         if (!foundObj) {
           return _this2.create(obj);
         } else {

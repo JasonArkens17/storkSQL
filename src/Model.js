@@ -17,6 +17,11 @@ class Model {
     return this.db.select().from(this.table).where(obj);
   }
 
+  findOne(obj) {
+    return this.db.select().from(this.table).where(obj)
+      .then((user) => user[0]);
+  }
+
   findOrCreate(obj) {
     // finds only on first val
     let firstProperty = Object.keys(obj)[0];
@@ -31,7 +36,7 @@ class Model {
   }
 
   updateOrCreate(obj) {
-    return this.db.find(obj)
+    return this.find(obj)
     .then((foundObj) => {
       if (!foundObj) {
         return this.create(obj);

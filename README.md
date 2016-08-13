@@ -55,6 +55,7 @@ This will give you access to the following queries:
 findAll()
 findById(id)
 find(obj)
+findOne(obj)
 findOrCreate(obj)
 create(obj)
 save(obj)
