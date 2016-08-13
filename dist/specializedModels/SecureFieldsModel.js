@@ -66,7 +66,7 @@ var SecureFields = function (_Model) {
       var _this4 = this;
 
       var decrypted = _lodash2.default.extend({}, obj);
-      (0, _lodash2.default)(decrypted).each(function (field) {
+      (0, _lodash2.default)(this.secureFields).each(function (field) {
         if (decrypted[field]) {
           decrypted[field] = _this4.decrypt(decrypted[field]);
         }
