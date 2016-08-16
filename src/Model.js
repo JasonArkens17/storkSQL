@@ -51,7 +51,7 @@ class Model {
   }
 
   create(obj) {
-    return this.db.insert(obj).into(this.table).returning('*');
+    return this._ModelCreate(obj);
   }
 
   save(obj) {
@@ -59,6 +59,10 @@ class Model {
   }
 
   update(criteriaObj, updateObj) {
+    return this._ModelUpdate(criteriaObj, updateObj);
+  }
+
+  _ModelUpdate(criteriaObj, updateObj) {
     return this.db(this.table).update(updateObj).orWhere(criteriaObj).returning('*');
   }
 

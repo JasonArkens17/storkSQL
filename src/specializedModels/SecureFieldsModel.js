@@ -20,6 +20,42 @@ export default class SecureFields extends Model {
     return this._ModelCreate(obj);
   }
 
+  updateOrCreate(findCriteria, updateCriteria) {
+    return this.findOne(findCriteria)
+    .then((foundObj) => {
+      if (!foundObj) {
+        return this.create(updateCriteria);
+      } else {
+        return this.update(findCriteria, updateCriteria);
+      }
+    });
+
+    return this._ModelCreate(obj);
+  }
+
+
+  update(criteriaObj, updateObj) {
+    this.secureFields.forEach((field) => {
+      if (updateObj[field]) {
+        updateObj[field] = this.encrypt(updateObj[field]);
+      }
+    });
+    return this._ModelUpdate(criteriaObj, updateObj);
+  }
+
+  findOrCreate(obj) {
+    // finds only on first val
+    let firstProperty = Object.keys(obj)[0];
+    this.db.select().from(this.table).orWhere({[firstProperty]: obj[firstProperty]})
+    .then((foundObj) => {
+      if (!foundObj) {
+        return this.create(obj);
+      } else {
+        return foundObj;
+      }
+    });
+  }
+
   decryptCollection(collection) {
     return collection.map((model) => this.decryptModel(model));
   }
