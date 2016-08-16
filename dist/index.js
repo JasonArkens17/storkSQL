@@ -30,7 +30,7 @@ var DatabaseInstance = function () {
   function DatabaseInstance(configObj, client, options) {
     _classCallCheck(this, DatabaseInstance);
 
-    if (options.testing) {
+    if (options && options.testing) {
       this.knex = this.db = (0, _knex2.default)({});
     } else {
       this.knex = this.db = (0, _knex2.default)({
