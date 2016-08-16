@@ -5,7 +5,7 @@ import knex from 'knex';
 
 export default class DatabaseInstance {
   constructor(configObj, client, options) {
-    if (options.testing) {
+    if (options && options.testing) {
       this.knex = this.db = knex({});
     } else {
       this.knex = this.db = knex({
