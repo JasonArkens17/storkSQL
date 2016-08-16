@@ -27,14 +27,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var DatabaseInstance = function () {
-  function DatabaseInstance(configObj, client) {
+  function DatabaseInstance(configObj, client, options) {
     _classCallCheck(this, DatabaseInstance);
 
-    this.knex = (0, _knex2.default)({
-      client: client,
-      connection: configObj
-    });
-    this.db = this.knex;
+    if (options.testing) {
+      this.knex = this.db = (0, _knex2.default)({});
+    } else {
+      this.knex = this.db = (0, _knex2.default)({
+        client: client,
+        connection: configObj
+      });
+    }
   }
 
   _createClass(DatabaseInstance, [{

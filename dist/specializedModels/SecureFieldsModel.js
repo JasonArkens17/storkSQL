@@ -74,6 +74,28 @@ var SecureFields = function (_Model) {
       return decrypted;
     }
   }, {
+    key: 'encryptModel',
+    value: function encryptModel(obj) {
+      var _this5 = this;
+
+      var encrypted = _lodash2.default.extend({}, obj);
+      (0, _lodash2.default)(this.secureFields).each(function (field) {
+        if (encrypted[field]) {
+          encrypted[field] = _this5.encrypt(encrypted[field]);
+        }
+      });
+      return encrypted;
+    }
+  }, {
+    key: 'encryptCollection',
+    value: function encryptCollection(collection) {
+      var _this6 = this;
+
+      return collection.map(function (model) {
+        return _this6.encryptModel(model);
+      });
+    }
+  }, {
     key: 'encrypt',
     value: function encrypt(text) {
       var cipher = crypto.createCipher(this.algorithm, this.password);
