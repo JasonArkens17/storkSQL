@@ -3,8 +3,10 @@ import Stork from '../src/index';
 
 const testDB = new Stork(null, null, {testing: true});
 const User = testDB.model('users', {
-  secureFields: ['password', 'token'],
-  password: 'yo'
+  secureFields: {
+    fields: ['password', 'token'],
+    password: 'yo'
+  }
 });
 
 describe('Testing suite for Stork ORM', () => {
@@ -15,15 +17,10 @@ describe('Testing suite for Stork ORM', () => {
         password: 'hello',
         token: 'ilovewerewolves'
       };
-
       const encryptedUser = User.encryptModel(userToEncrypt);
-
       console.log(encryptedUser);
-
       const decryptedUser = User.decryptModel(encryptedUser);
-
       expect(decryptedUser).to.deep.equal(userToEncrypt);
-
       done();
     });
 
@@ -48,7 +45,6 @@ describe('Testing suite for Stork ORM', () => {
       const encryptedUserCollection = User.encryptCollection(usersCollectionToEncrypt);
       const decryptedUserCollection = User.decryptCollection(encryptedUserCollection);
       expect(decryptedUserCollection).to.deep.equal(usersCollectionToEncrypt);
-
       done();
     });
   });

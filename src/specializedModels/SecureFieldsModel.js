@@ -11,19 +11,13 @@ export default class SecureFields extends Model {
   }
 
   create(obj) {
-    this.secureFields.forEach((field) => {
-      if (obj[field]) {
-        obj[field] = this.encrypt(obj[field]);
-      }
-    });
-
-    return this._ModelCreate(obj);
+    return this._ModelCreate(this.encryptModel(obj));
   }
 
   updateOrCreate(findCriteria, updateCriteria) {
     return this.findOne(findCriteria)
     .then((foundObj) => {
-      if (!foundObj) {
+      if (!foundObj || foundObj.length === 0) {
         return this.create(updateCriteria);
       } else {
         return this.update(findCriteria, updateCriteria);
@@ -33,22 +27,16 @@ export default class SecureFields extends Model {
     return this._ModelCreate(obj);
   }
 
-
   update(criteriaObj, updateObj) {
-    this.secureFields.forEach((field) => {
-      if (updateObj[field]) {
-        updateObj[field] = this.encrypt(updateObj[field]);
-      }
-    });
-    return this._ModelUpdate(criteriaObj, updateObj);
+    return this._ModelUpdate(criteriaObj, this.encryptModel(updateObj));
   }
 
   findOrCreate(obj) {
     // finds only on first val
     let firstProperty = Object.keys(obj)[0];
-    this.db.select().from(this.table).orWhere({[firstProperty]: obj[firstProperty]})
+    this.findOne(obj)
     .then((foundObj) => {
-      if (!foundObj) {
+      if (!foundObj || foundObj.length === 0) {
         return this.create(obj);
       } else {
         return foundObj;
