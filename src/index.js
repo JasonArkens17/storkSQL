@@ -4,12 +4,15 @@ import SecureFieldsModel from './specializedModels/SecureFieldsModel';
 import knex from 'knex';
 
 export default class DatabaseInstance {
-  constructor(configObj, client) {
-    this.knex = knex({
-      client: client,
-      connection: configObj
-    });
-    this.db = this.knex;
+  constructor(configObj, client, options) {
+    if (options.testing) {
+      this.knex = this.db = knex({});
+    } else {
+      this.knex = this.db = knex({
+        client: client,
+        connection: configObj
+      });
+    }
   }
 
   model(table, options) {

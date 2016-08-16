@@ -4,7 +4,7 @@
   "description": "A SQL ORM with Mongoose-like syntax. Built on top of knex.",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "babel-node ./test/test.js",
+    "test": "mocha --compilers js:babel-core/register test/index.js",
     "build": "babel ./src -d ./dist --presets es2016,es2015,stage-2 --copy-files",
     "pub": "npm run build; git add -A; git commit -m \"publish\"; git push origin master; npm version patch; npm publish"
   },
@@ -17,9 +17,11 @@
     "babel-preset-stage-2": "^6.13.0",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.4.1",
+    "chai": "^3.5.0",
     "crypto": "0.0.3",
     "knex": "^0.11.10",
-    "lodash": "^4.14.0"
+    "lodash": "^4.14.0",
+    "mocha": "^3.0.2"
   },
   "devDependencies": {
     "mysql": "^2.11.1",

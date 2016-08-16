@@ -34,6 +34,21 @@ export default class SecureFields extends Model {
     return decrypted;
   }
 
+
+  encryptModel(obj) {
+    let encrypted = _.extend({}, obj);
+    _(this.secureFields).each((field) => {
+      if (encrypted[field]) {
+        encrypted[field] = this.encrypt(encrypted[field]);
+      }
+    });
+    return encrypted;
+  }
+
+  encryptCollection(collection) {
+    return collection.map((model) => this.encryptModel(model));
+  }
+
   encrypt(text) {
     const cipher = crypto.createCipher(this.algorithm, this.password);
     let crypted = cipher.update(text, 'utf8', 'hex');
