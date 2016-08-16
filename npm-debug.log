@@ -1,0 +1,45 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'run', 'build' ]
+2 info using npm@3.8.6
+3 info using node@v6.1.0
+4 verbose run-script [ 'prebuild', 'build', 'postbuild' ]
+5 info lifecycle storkSQL@0.1.13~prebuild: storkSQL@0.1.13
+6 silly lifecycle storkSQL@0.1.13~prebuild: no script for prebuild, continuing
+7 info lifecycle storkSQL@0.1.13~build: storkSQL@0.1.13
+8 verbose lifecycle storkSQL@0.1.13~build: unsafe-perm in lifecycle true
+9 verbose lifecycle storkSQL@0.1.13~build: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/alexcstark/OneDrive/code/projects/stork/node_modules/.bin:/usr/local/bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/alexcstark/OneDrive/code/projects/stork/node_modules/.bin:/usr/local/bin:/Users/alexcstark/.rvm/gems/ruby-2.2.2/bin:/Users/alexcstark/.rvm/gems/ruby-2.2.2@global/bin:/Users/alexcstark/.rvm/rubies/ruby-2.2.2/bin:/Users/alexcstark/.rvm/gems:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/heroku/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/alexcstark:/Users/username/bin:/Users/alexcstark/.rvm/:/Users/alexcstark/.rvm/scripts:./node_modules/.bin:/Users/alexcstark/.rvm/bin
+10 verbose lifecycle storkSQL@0.1.13~build: CWD: /Users/alexcstark/OneDrive/code/projects/stork
+11 silly lifecycle storkSQL@0.1.13~build: Args: [ '-c',
+11 silly lifecycle   'babel ./src -d ./dist --presets es2016,es2015,stage-2 --copy-files' ]
+12 info lifecycle storkSQL@0.1.13~build: Failed to exec build script
+13 verbose stack Error: storkSQL@0.1.13 build: `babel ./src -d ./dist --presets es2016,es2015,stage-2 --copy-files`
+13 verbose stack spawn ENOENT
+13 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:17:16)
+13 verbose stack     at emitTwo (events.js:106:13)
+13 verbose stack     at ChildProcess.emit (events.js:191:7)
+13 verbose stack     at maybeClose (internal/child_process.js:850:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
+14 verbose pkgid storkSQL@0.1.13
+15 verbose cwd /Users/alexcstark/OneDrive/code/projects/stork
+16 error Darwin 15.6.0
+17 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "build"
+18 error node v6.1.0
+19 error npm  v3.8.6
+20 error file sh
+21 error code ELIFECYCLE
+22 error errno ENOENT
+23 error syscall spawn
+24 error storkSQL@0.1.13 build: `babel ./src -d ./dist --presets es2016,es2015,stage-2 --copy-files`
+24 error spawn ENOENT
+25 error Failed at the storkSQL@0.1.13 build script 'babel ./src -d ./dist --presets es2016,es2015,stage-2 --copy-files'.
+25 error Make sure you have the latest version of node.js and npm installed.
+25 error If you do, this is most likely a problem with the storkSQL package,
+25 error not with npm itself.
+25 error Tell the author that this fails on your system:
+25 error     babel ./src -d ./dist --presets es2016,es2015,stage-2 --copy-files
+25 error You can get information on how to open an issue for this project with:
+25 error     npm bugs storkSQL
+25 error Or if that isn't available, you can get their info via:
+25 error     npm owner ls storkSQL
+25 error There is likely additional logging output above.
+26 verbose exit [ 1, true ]
