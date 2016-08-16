@@ -16,6 +16,8 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -52,23 +54,65 @@ var SecureFields = function (_Model) {
       return this._ModelCreate(obj);
     }
   }, {
-    key: 'decryptCollection',
-    value: function decryptCollection(collection) {
+    key: 'updateOrCreate',
+    value: function updateOrCreate(findCriteria, updateCriteria) {
       var _this3 = this;
 
+      return this.findOne(findCriteria).then(function (foundObj) {
+        if (!foundObj) {
+          return _this3.create(updateCriteria);
+        } else {
+          return _this3.update(findCriteria, updateCriteria);
+        }
+      });
+
+      return this._ModelCreate(obj);
+    }
+  }, {
+    key: 'update',
+    value: function update(criteriaObj, updateObj) {
+      var _this4 = this;
+
+      this.secureFields.forEach(function (field) {
+        if (updateObj[field]) {
+          updateObj[field] = _this4.encrypt(updateObj[field]);
+        }
+      });
+      return this._ModelUpdate(criteriaObj, updateObj);
+    }
+  }, {
+    key: 'findOrCreate',
+    value: function findOrCreate(obj) {
+      var _this5 = this;
+
+      // finds only on first val
+      var firstProperty = Object.keys(obj)[0];
+      this.db.select().from(this.table).orWhere(_defineProperty({}, firstProperty, obj[firstProperty])).then(function (foundObj) {
+        if (!foundObj) {
+          return _this5.create(obj);
+        } else {
+          return foundObj;
+        }
+      });
+    }
+  }, {
+    key: 'decryptCollection',
+    value: function decryptCollection(collection) {
+      var _this6 = this;
+
       return collection.map(function (model) {
-        return _this3.decryptModel(model);
+        return _this6.decryptModel(model);
       });
     }
   }, {
     key: 'decryptModel',
     value: function decryptModel(obj) {
-      var _this4 = this;
+      var _this7 = this;
 
       var decrypted = _lodash2.default.extend({}, obj);
       (0, _lodash2.default)(this.secureFields).each(function (field) {
         if (decrypted[field]) {
-          decrypted[field] = _this4.decrypt(decrypted[field]);
+          decrypted[field] = _this7.decrypt(decrypted[field]);
         }
       });
       return decrypted;
@@ -76,12 +120,12 @@ var SecureFields = function (_Model) {
   }, {
     key: 'encryptModel',
     value: function encryptModel(obj) {
-      var _this5 = this;
+      var _this8 = this;
 
       var encrypted = _lodash2.default.extend({}, obj);
       (0, _lodash2.default)(this.secureFields).each(function (field) {
         if (encrypted[field]) {
-          encrypted[field] = _this5.encrypt(encrypted[field]);
+          encrypted[field] = _this8.encrypt(encrypted[field]);
         }
       });
       return encrypted;
@@ -89,10 +133,10 @@ var SecureFields = function (_Model) {
   }, {
     key: 'encryptCollection',
     value: function encryptCollection(collection) {
-      var _this6 = this;
+      var _this9 = this;
 
       return collection.map(function (model) {
-        return _this6.encryptModel(model);
+        return _this9.encryptModel(model);
       });
     }
   }, {

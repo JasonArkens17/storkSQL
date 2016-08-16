@@ -77,7 +77,7 @@ var Model = function () {
   }, {
     key: 'create',
     value: function create(obj) {
-      return this.db.insert(obj).into(this.table).returning('*');
+      return this._ModelCreate(obj);
     }
   }, {
     key: 'save',
@@ -87,6 +87,11 @@ var Model = function () {
   }, {
     key: 'update',
     value: function update(criteriaObj, updateObj) {
+      return this._ModelUpdate(criteriaObj, updateObj);
+    }
+  }, {
+    key: '_ModelUpdate',
+    value: function _ModelUpdate(criteriaObj, updateObj) {
       return this.db(this.table).update(updateObj).orWhere(criteriaObj).returning('*');
     }
   }, {
