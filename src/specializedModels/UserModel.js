@@ -8,7 +8,7 @@ export default class UserModel extends Model {
 
   create(user) {
     user.password = this.generateHash(user.password);
-    return this.db.insert(user).into(this.table).returning(...Object.keys(user));
+    return this.db.insert(user).into(this.table).returning('*');
   }
 
   generateHash(password) {
