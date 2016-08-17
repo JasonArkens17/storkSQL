@@ -11,7 +11,9 @@ export default class SecureFields extends Model {
   }
 
   create(obj) {
-    return this._ModelCreate(this.encryptModel(obj));
+    const salt = this.salt(10);
+    obj.salt = salt;
+    return this._ModelCreate(this.encryptModel(obj, salt));
   }
 
   updateOrCreate(findCriteria, updateCriteria) {
@@ -53,24 +55,38 @@ export default class SecureFields extends Model {
     _(this.secureFields).each((field) => {
       if (decrypted[field]) {
         decrypted[field] = this.decrypt(decrypted[field]);
+        decrypted[field] = decrypted[field].slice(0, decrypted[field].length - 10);
+
       }
     });
     return decrypted;
   }
 
 
-  encryptModel(obj) {
+  encryptModel(obj, salt) {
     let encrypted = _.extend({}, obj);
     _(this.secureFields).each((field) => {
       if (encrypted[field]) {
-        encrypted[field] = this.encrypt(encrypted[field]);
+        encrypted[field] = this.encrypt(encrypted[field].concat(salt));
       }
     });
     return encrypted;
   }
 
   encryptCollection(collection) {
-    return collection.map((model) => this.encryptModel(model));
+    return collection.map((model) => {
+      const salt = this.salt(10);
+      return this.encryptModel(model, salt);
+    });
+  }
+
+  salt(numOfRounds) {
+    const results = [];
+
+    for(var i=0; i<numOfRounds; i++) {
+      results.push(Math.random().toString(36).substr(2, 1))
+    }
+    return results.join('');
   }
 
   encrypt(text) {

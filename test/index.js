@@ -17,9 +17,10 @@ describe('Testing suite for Stork ORM', () => {
         password: 'hello',
         token: 'ilovewerewolves'
       };
-      const encryptedUser = User.encryptModel(userToEncrypt);
-      console.log(encryptedUser);
-      const decryptedUser = User.decryptModel(encryptedUser);
+      const salt = User.salt(10);
+      console.log('==sssss==================', salt);
+      const encryptedUser = User.encryptModel(userToEncrypt, salt);
+      const decryptedUser = User.decryptModel(encryptedUser, salt);
       expect(decryptedUser).to.deep.equal(userToEncrypt);
       done();
     });
